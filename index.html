@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVibe Strategic Proposal Generator V5</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eef2f3; margin: 0; padding: 20px; color: #2c3e50; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
+        h1 { color: #1abc9c; text-align: center; margin-bottom: 30px; border-bottom: 2px solid #1abc9c; padding-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-weight: 600; margin-bottom: 8px; color: #34495e; font-size: 14px; }
+        input, select { padding: 12px; border: 1px solid #bdc3c7; border-radius: 5px; font-size: 15px; transition: border 0.3s; }
+        input:focus { border-color: #1abc9c; outline: none; }
+        button { background-color: #2c3e50; color: white; padding: 15px 25px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 18px; font-weight: bold; transition: background 0.3s; text-transform: uppercase; }
+        button:hover { background-color: #1a252f; }
+        
+        #proposalOutput { margin-top: 50px; padding: 50px; border: 1px solid #ecf0f1; background: #fff; display: none; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.05); }
+        .proposal-header { text-align: center; margin-bottom: 40px; }
+        .company-name { font-size: 32px; font-weight: 800; color: #2c3e50; letter-spacing: 2px; }
+        .tagline { font-size: 15px; color: #7f8c8d; margin-top: 5px; font-weight: 500; }
+        .doc-title { margin-top: 25px; font-size: 22px; font-weight: 700; color: #e74c3c; text-transform: uppercase; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 10px 0; }
+        
+        .section-title { font-size: 18px; font-weight: 700; color: #2c3e50; margin-top: 35px; margin-bottom: 15px; border-left: 5px solid #1abc9c; padding-left: 12px; background: #f8f9fa; padding-top: 8px; padding-bottom: 8px; }
+        .content-text { font-size: 15px; line-height: 1.6; color: #444; }
+        
+        .pricing-table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 20px; }
+        .pricing-table th, .pricing-table td { border: 1px solid #bdc3c7; padding: 15px; text-align: left; }
+        .pricing-table th { background-color: #f4f6f7; width: 35%; color: #2c3e50; font-weight: 700; }
+        .pricing-table td { font-size: 15px; color: #333; }
+        .highlight-row { background-color: #e8f8f5; font-weight: bold; color: #16a085; }
+        
+        ul.benefits { padding-left: 20px; font-size: 15px; line-height: 1.8; color: #444; }
+        ul.benefits li { margin-bottom: 8px; }
+        
+        .signatures { margin-top: 100px; display: flex; justify-content: space-between; }
+        .sign-box { text-align: center; width: 45%; }
+        .sign-line { border-top: 1px dashed #7f8c8d; margin-bottom: 10px; }
+        
+        .footer { text-align: center; font-size: 12px; color: #95a5a6; margin-top: 50px; border-top: 1px solid #ecf0f1; padding-top: 15px; }
+        .btn-print { background-color: #27ae60; margin-top: 30px; }
+        .btn-print:hover { background-color: #219a52; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; max-width: 100%; padding: 0; }
+            button, h1, .form-grid { display: none; }
+            #proposalOutput { display: block !important; border: none; padding: 0; box-shadow: none; margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>EVibe Proposal Generator</h1>
+    
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Client Business Name (ව්‍යාපාරයේ නම):</label>
+            <input type="text" id="clientName" placeholder="e.g. EVibe Rentals">
+        </div>
+        <div class="form-group">
+            <label>Product/Service Name (නිෂ්පාදනය/සේවාව):</label>
+            <input type="text" id="productName" placeholder="e.g. Premium Dehydrated Fruits">
+        </div>
+        <div class="form-group">
+            <label>Average Product Price (LKR):</label>
+            <input type="number" id="productPrice" placeholder="e.g. 25000">
+        </div>
+        <div class="form-group">
+            <label>Monthly Ad Spend Budget (LKR):</label>
+            <input type="number" id="adSpend" placeholder="e.g. 100000">
+        </div>
+        <div class="form-group">
+            <label>Initial Consultation Hours:</label>
+            <input type="number" id="consultHours" value="1" min="1">
+        </div>
+    </div>
+
+    <button onclick="generateProposal()">Generate Strategic Proposal</button>
+
+    <div id="proposalOutput">
+        <div class="proposal-header">
+            <div class="company-name">EVIBE TECHNOLOGIES</div>
+            <div class="tagline">Digital Growth Consulting & Strategic Sales Solutions</div>
+            <div class="doc-title">Performance-Based Marketing & Call Center Proposal</div>
+        </div>
+
+        <p class="content-text"><strong>Prepared For:</strong> <span id="propClientName"></span></p>
+        <p class="content-text"><strong>Date:</strong> <span id="propDate"></span></p>
+
+        <div class="section-title">01. The Objective (අරමුණ)</div>
+        <p class="content-text">ඔබගේ ව්‍යාපාරයේ අලෙවිය ඉහළ නැංවීම සඳහා සාම්ප්‍රදායික "Cost Per Message" ක්‍රමයෙන් ඔබ්බට ගොස්, <strong>"Cost Per Confirmed Order"</strong> (තහවුරු කළ ඇණවුමක් සඳහා පමණක් ගෙවීම) මත පදනම් වූ ඒකාබද්ධ Meta Ads සහ Call Center සේවාවක් සැපයීම අපගේ අරමුණයි. අප ආයතනය විසින් <strong><span id="propProduct"></span></strong> සඳහා පැමිණෙන සියලුම පාරිභෝගික විමසීම් කළමනාකරණය කර, ඇණවුම් තහවුරු කර ඔබ වෙත යොමු කරනු ඇත.</p>
+
+        <div class="section-title">02. Value Addition (අමතර වාසි)</div>
+        <ul class="benefits">
+            <li><strong>Live Lead Tracking:</strong> WhatsRay API පද්ධතිය හරහා ඔබගේ ව්‍යාපාරයට ලැබෙන සියලුම විමසීම් සජීවීව බලාගැනීමේ ප්‍රවේශය (Access) ඔබට හිමිවේ.</li>
+            <li><strong>Automated Data Delivery:</strong> තහවුරු වන සියලුම සාර්ථක ලීඩ්ස් (Positive Leads) දෛනිකව <strong>Google Sheets</strong> හරහා යාවත්කාලීන කරනු ලැබේ.</li>
+        </ul>
+
+        <div class="section-title">03. Investment & Pricing Strategy (ආයෝජන සැලසුම)</div>
+        <table class="pricing-table">
+            <tr>
+                <th>Phase 1: Initial Strategy Session</th>
+                <td><strong>Rs. <span id="propConsultFee"></span></strong><br><span style="font-size: 13px; color: #7f8c8d;">(Product & Profit Margin Analysis)</span></td>
+            </tr>
+            <tr>
+                <th>Phase 2: Monthly Retainer Fee</th>
+                <td><strong>Rs. 25,000 / Month</strong><br><span style="font-size: 13px; color: #7f8c8d;">(Includes Meta Ads Management, WhatsRay API Access & Agent Base Fee)</span></td>
+            </tr>
+            <tr>
+                <th>Phase 3: Meta Ad Spend</th>
+                <td><strong>Rs. <span id="propAdSpend"></span></strong><br><span style="font-size: 13px; color: #7f8c8d;">(Pre-paid directly from Client's Card)</span></td>
+            </tr>
+            <tr class="highlight-row">
+                <th>Phase 4: Performance Fee<br>(Per Confirmed Order)</th>
+                <td><strong><span id="propLeadFee"></span></strong><br><span style="font-size: 13px; color: #2c3e50;">(Billed at the end of the month based on successful conversions only)</span></td>
+            </tr>
+        </table>
+
+        <div class="section-title">04. The 7-Day Trust Sprint (අත්හදා බැලීමේ පැකේජය)</div>
+        <p class="content-text">අපගේ සේවාවේ ගුණාත්මකභාවය සහ Conversion Rate එක පිළිබඳව විශ්වාසය තහවුරු කර ගැනීම සඳහා දින 7ක ආරම්භක පැකේජයක් <strong>රු. 15,000</strong> කට ලබාගත හැක. (Performance Fee වෙනම අදාළ වේ).</p>
+
+        <div class="section-title">05. Terms & Conditions (නියමයන් සහ කොන්දේසි)</div>
+        <ul class="benefits">
+            <li><strong>Ad Spend Policy:</strong> දැන්වීම් සඳහා වැයවන මුදල මාසය ආරම්භයට පෙර සේවාලාභියා විසින් ගෙවිය යුතුය.</li>
+            <li><strong>Clawback Policy (Return Orders):</strong> තහවුරු කර කුරියර් හරහා යවන ලද භාණ්ඩයක් පාරිභෝගිකයා ප්‍රතික්ෂේප කළහොත් (Return), ඒ සඳහා අප අය කළ Performance ගාස්තුව මීළඟ මාසයේ බිල්පතින් අඩු (Credit) කරනු ලැබේ.</li>
+            <li><strong>Fulfillment:</strong> භාණ්ඩ ඇසුරුම් කිරීම, බෙදාහැරීම සහ භාණ්ඩයේ ගුණාත්මකභාවය පිළිබඳ වගකීම සේවාලාභියා සතු වේ.</li>
+        </ul>
+
+        <div class="signatures">
+            <div class="sign-box">
+                <div class="sign-line"></div>
+                <div style="font-weight: bold;">H.D. Thiviru Senith Jayasekara</div>
+                <div style="font-size: 13px; color: #7f8c8d;">Founder / Digital Growth Consultant<br>EVibe Technologies</div>
+            </div>
+            <div class="sign-box">
+                <div class="sign-line"></div>
+                <div style="font-weight: bold;">Client Acceptance</div>
+                <div style="font-size: 13px; color: #7f8c8d;">Authorized Signature & Date</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            EVibe Technologies Private Limited | Reg No: PV00329485 | Contact: 0711 822 812
+        </div>
+        
+        <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+</div>
+
+<script>
+    function generateProposal() {
+        const name = document.getElementById('clientName').value;
+        const product = document.getElementById('productName').value;
+        const price = parseFloat(document.getElementById('productPrice').value);
+        const adSpend = document.getElementById('adSpend').value;
+        const hours = parseInt(document.getElementById('consultHours').value) || 1;
+
+        if(!name || !product || !price) {
+            alert('කරුණාකර ව්‍යාපාරයේ නම, නිෂ්පාදනය සහ මිල ඇතුළත් කරන්න.');
+            return;
+        }
+
+        // Updated Consulting Fee: 5990 for first hour, 1000 for additional
+        let consultFee = 5990 + ((hours > 1) ? (hours - 1) * 1000 : 0);
+
+        let leadFeeText = "";
+        if (price < 5000) {
+            leadFeeText = "Rs. 300 per Confirmed Order"; 
+        } else if (price <= 25000) {
+            leadFeeText = "Rs. 1,000 per Confirmed Order"; 
+        } else {
+            let commission = price * 0.04;
+            leadFeeText = `4% of Sales Value (Approx. Rs. ${commission.toLocaleString()} per Order)`; 
+        }
+
+        document.getElementById('propClientName').innerText = name;
+        document.getElementById('propProduct').innerText = product;
+        document.getElementById('propAdSpend').innerText = adSpend ? Number(adSpend).toLocaleString() : "Determined later";
+        document.getElementById('propConsultFee').innerText = consultFee.toLocaleString();
+        document.getElementById('propLeadFee').innerText = leadFeeText;
+        
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('propDate').innerText = new Date().toLocaleDateString('en-US', dateOptions);
+
+        document.getElementById('proposalOutput').style.display = 'block';
+        window.scrollTo({ top: document.getElementById('proposalOutput').offsetTop, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
